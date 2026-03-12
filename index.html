@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>이순신을 지켜라! — 조선왕조 완전정복</title>
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR:wght@300;400;700;900&family=Nanum+Myeongjo:wght@400;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<!-- overlays -->
+<div class="stamp-overlay" id="stampOverlay" style="display:none"><div class="stamp-text" id="stampText">격파!</div></div>
+<div id="dmgContainer"></div>
+<div id="dmgFlash"></div>
+<div class="special-overlay" id="specialOverlay"><div class="special-bg" id="specialBg"></div><div class="special-txt" id="specialTxt"></div></div>
+<div id="finalBlowOverlay"></div>
+<div id="finalBlowText"><div class="fb-title">거북선 일격!</div><div class="fb-sub">용두포 발사!!</div></div>
+
+<!-- ══ HOME ══ -->
+<div class="screen active" id="home">
+  <div class="home-bg" id="homeBgImg"></div>
+  <div class="home-ov"></div>
+  <div class="home-deco"></div>
+  <div class="home-title">이순신을 지켜라!</div>
+  <div class="home-motto">必死則生 · 必生則死</div>
+  <div class="home-sub" style="color:#e74c3c;">조선왕조 암기하고 끝까지 생존하자!</div>
+  <div class="mode-grid">
+    <div class="mode-btn battle-btn" onclick="startBattle('all')"><span class="mode-icon">⚔️</span><span class="mode-name red">전투 시작</span><span class="mode-desc">퀴즈로 왜선을<br>격파하라! (10문)</span></div>
+
+    <div class="mode-btn" onclick="showScreen('cards')"><span class="mode-icon">🎴</span><span class="mode-name">카드 도감</span><span class="mode-desc">뒤집어서 왕의<br>업적을 확인하라</span></div>
+    <div class="mode-btn" onclick="showScreen('timeline')"><span class="mode-icon">📜</span><span class="mode-name">타임라인</span><span class="mode-desc">시대순 흐름으로<br>역사를 파악하라</span></div>
+    <div class="mode-btn" onclick="showScreen('story')"><span class="mode-icon">📖</span><span class="mode-name">스토리 암기</span><span class="mode-desc">이야기로 읽으며<br>절대 잊지 않는다</span></div>
+
+  </div>
+  <div class="mnemonic-bar">
+    <div class="label">▶ 27왕 순서 암기</div>
+    <div class="text">
+      <span class="syllable">태</span><span class="syllable">정</span><span class="syllable">태</span><span class="syllable">세</span><span class="syllable">문</span><span class="syllable">단</span><span class="syllable">세</span>
+      &nbsp;&nbsp;
+      <span class="syllable">예</span><span class="syllable">성</span><span class="syllable">연</span><span class="syllable">중</span><span class="syllable">인</span><span class="syllable">명</span><span class="syllable">선</span>
+      <br>
+      <span class="syllable">광</span><span class="syllable">인</span><span class="syllable">효</span><span class="syllable">현</span><span class="syllable">숙</span><span class="syllable">경</span><span class="syllable">영</span>
+      &nbsp;&nbsp;
+      <span class="syllable">정</span><span class="syllable">순</span><span class="syllable">헌</span><span class="syllable">철</span><span class="syllable">고</span><span class="syllable">순</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══ CARDS ══ -->
+<div class="screen" id="cards">
+  <div class="screen-header"><button class="back-btn" onclick="showScreen('home')">← 홈</button><div class="screen-title">🎴 카드 도감</div></div>
+  <div class="legend-panel" style="margin:0 20px 12px;align-self:center;max-width:920px;">
+    <div class="legend-title">▶ 태그 색상 기준</div>
+    <div class="legend-tag-row">
+      <span class="l-chip lc-tr">🔴 핵심 사건·제도</span>
+      <span class="l-chip lc-tg">🟡 편찬·문화</span>
+      <span class="l-chip lc-tb">🔵 외교·전쟁</span>
+      <span class="l-chip lc-tgr">🟢 인물·세력</span>
+      <span class="l-chip lc-to">🟠 제도·기구</span>
+      <span class="l-chip lc-tp">🟣 사화·반란</span>
+    </div>
+  </div>
+  <div style="padding:0 20px;max-width:960px;width:100%;margin:0 auto;">
+    <div class="era-tabs" id="eraTabs" style="padding:0;">
+      <div class="era-tab active" onclick="filterEra('all',this)">전체</div>
+      <div class="era-tab" onclick="filterEra('전기',this)">전기</div>
+      <div class="era-tab" onclick="filterEra('중기',this)">중기</div>
+      <div class="era-tab" onclick="filterEra('중후기',this)">중후기</div>
+      <div class="era-tab" onclick="filterEra('후기',this)">후기</div>
+      <div class="era-tab" onclick="filterEra('말기',this)">말기</div>
+      <div class="era-tab" onclick="filterEra('근대',this)">근대</div>
+    </div>
+    <div id="cardsContainer"></div>
+  </div>
+</div>
+
+<!-- ══ BATTLE ══ -->
+<div class="screen" id="battle">
+  <div class="battle-hud">
+    <button class="hud-back-btn" onclick="showScreen('home')">← 홈</button>
+    <div class="hud-hp-wrap">
+      <span class="hud-hp-label">HP</span>
+      <div class="hearts-row">
+        <span class="heart-icon" id="hrt1">❤️</span>
+        <span class="heart-icon" id="hrt2">❤️</span>
+        <span class="heart-icon" id="hrt3">❤️</span>
+      </div>
+    </div>
+    <div class="hud-score" id="hudScore">0점</div>
+    <div class="hud-combo" id="hudCombo">콤보 0🔥</div>
+    <div class="hud-progress-wrap">
+      <div class="hud-progress"><div class="hud-bar" id="hudBar" style="width:0%"></div></div>
+      <div id="hudNum" style="font-size:10px;color:var(--gray);">0/10</div>
+    </div>
+  </div>
+  <div class="battlefield" id="battlefield">
+    <div class="battle-bg-panel" id="battleBgPanel">
+      <div class="battle-bg-img" id="battleBgImg"></div>
+      <div class="battle-bg-overlay"></div>
+      <canvas id="fxCanvas"></canvas>
+      <div id="fxLayer"></div>
+      <div class="enemy-hp-row">
+        <div class="enemy-hp-lbl">왜선</div>
+        <div class="enemy-hp-bar"><div class="enemy-hp-fill" id="enemyHpFill" style="width:100%"></div></div>
+      </div>
+      <div class="combo-announce"><div class="combo-badge" id="comboBadge"></div></div>
+    </div>
+    <div class="question-box" id="questionBox">
+      <div class="q-badge" id="qBadge">◆ 문제 유형</div>
+      <div class="q-keyword" id="qKeyword"></div>
+      <div class="q-king-era" id="qKingEra"></div>
+      <div class="q-divider"></div>
+      <div class="q-text" id="qText"></div>
+      <div class="q-hint-row">
+        <div class="q-hint" id="qHint"></div>
+        <button class="hint-btn" onclick="showHint()">💡 힌트</button>
+      </div>
+      <div class="q-explain" id="qExplain"></div>
+    </div>
+    <div class="hand-area" id="handArea"></div>
+    <button class="next-btn" id="nextBtn" onclick="nextQuestion()">다음 문제 →</button>
+  </div>
+</div>
+
+<!-- ══ RESULT ══ -->
+<div class="screen" id="result">
+  <div class="result-bg" id="resultBgImg"></div>
+  <div class="result-ov"></div>
+  <div class="result-emoji" id="resultEmoji">👑</div>
+  <div class="result-title" id="resultTitle"></div>
+  <div class="result-score-big" id="resultScore"><span>0</span>점</div>
+  <div class="result-grade" id="resultGrade"></div>
+  <div class="result-btns">
+    <button class="result-btn primary" onclick="startBattle('all')">⚔️ 다시 도전</button>
+    <button class="result-btn" onclick="showScreen('home')">← 홈</button>
+  </div>
+</div>
+
+<!-- ══ TIMELINE ══ -->
+<div class="screen" id="timeline">
+  <div class="screen-header"><button class="back-btn" onclick="showScreen('home')">← 홈</button><div class="screen-title">📜 조선왕조 타임라인</div></div>
+  <div style="padding:0 20px;width:100%;display:flex;justify-content:center;">
+    <div class="timeline-wrap" id="timelineWrap"><div class="timeline-line"></div></div>
+  </div>
+</div>
+
+<!-- ══ STORY ══ -->
+<div class="screen" id="story">
+  <div class="screen-header"><button class="back-btn" onclick="backFromStory()">← 홈</button><div class="screen-title">📖 스토리 암기</div></div>
+  <div style="padding:0 20px;width:100%;display:flex;justify-content:center;flex-direction:column;align-items:center;">
+    <div style="max-width:700px;width:100%;" id="storySelectWrap">
+      <div style="font-size:11px;color:var(--gray);margin-bottom:8px;letter-spacing:2px;">이야기로 읽으면 절대 안 잊는다</div>
+      <div class="story-list" id="storyList"></div>
+    </div>
+    <div class="story-reader" id="storyReader">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:18px;">
+        <button class="back-btn" onclick="closeStory()">← 목록</button>
+        <div class="story-title-big" id="storyTitleBig"></div>
+      </div>
+      <div class="story-content" id="storyContent"></div>
+    </div>
+  </div>
+</div>
+<script src="script.js"></script>
+</body>
+</html>
