@@ -198,9 +198,20 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .q-king-era{font-size:10px;color:var(--gray);margin-bottom:8px;letter-spacing:2px;}
 .q-divider{width:100%;height:1px;background:linear-gradient(90deg,transparent,rgba(212,160,23,.2),transparent);margin-bottom:9px;}
 .q-text{font-family:'Nanum Myeongjo',serif;font-size:clamp(13px,2.7vw,16px);color:#f5eed8;line-height:1.75;}
+.q-keyword-bottom{font-size:11px;color:var(--gold2);margin-top:7px;letter-spacing:1px;min-height:16px;}
 .q-hint-row{display:flex;align-items:center;gap:6px;margin-top:8px;}
 .q-hint{background:rgba(212,160,23,.05);border:1px solid rgba(212,160,23,.12);border-radius:5px;padding:6px 10px;font-size:11px;color:var(--gold2);opacity:0;transition:opacity .3s;flex:1;}
 .q-hint.show{opacity:1;}
+.q-explain-label{font-size:10px;color:var(--gold2);letter-spacing:2px;margin-bottom:4px;margin-top:2px;}
+/* ── MHHO 묘호 이야기 탭 ── */
+.q-mhho-wrap{border-top:1px solid rgba(212,160,23,.2);margin-top:10px;padding-top:8px;}
+.q-mhho-toggle{font-size:11px;color:var(--gold2);cursor:pointer;user-select:none;padding:5px 0;letter-spacing:1px;}
+.q-mhho-toggle:hover{color:var(--gold3);}
+.q-mhho-body{display:none;padding-top:6px;}
+.q-mhho-wrap.open .q-mhho-body{display:block;}
+.q-mhho-title{font-size:12px;color:var(--gold3);font-weight:700;margin-bottom:6px;}
+.q-mhho-text{font-size:11px;color:rgba(245,238,216,.75);line-height:1.7;margin-bottom:6px;}
+.q-mhho-source{font-size:10px;color:var(--gray);font-style:italic;}
 .hint-btn{background:rgba(212,160,23,.08);border:1px solid rgba(212,160,23,.2);color:rgba(212,160,23,.6);padding:5px 10px;border-radius:4px;cursor:pointer;font-size:10px;white-space:nowrap;transition:all .2s;flex-shrink:0;}
 .hint-btn:hover{background:rgba(212,160,23,.15);color:var(--gold2);}
 
